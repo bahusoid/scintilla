@@ -171,6 +171,7 @@ LEXOBJS=\
 	$(DIR_O)\LexNim.obj \
 	$(DIR_O)\LexNimrod.obj \
 	$(DIR_O)\LexNsis.obj \
+	$(DIR_O)\LexObjC.obj \
 	$(DIR_O)\LexNull.obj \
 	$(DIR_O)\LexOpal.obj \
 	$(DIR_O)\LexOScript.obj \
@@ -193,6 +194,7 @@ LEXOBJS=\
 	$(DIR_O)\LexRust.obj \
 	$(DIR_O)\LexSAS.obj \
 	$(DIR_O)\LexScriptol.obj \
+	$(DIR_O)\LexSearchResult.obj \
 	$(DIR_O)\LexSmalltalk.obj \
 	$(DIR_O)\LexSML.obj \
 	$(DIR_O)\LexSorcus.obj \
@@ -208,6 +210,7 @@ LEXOBJS=\
 	$(DIR_O)\LexTCMD.obj \
 	$(DIR_O)\LexTeX.obj \
 	$(DIR_O)\LexTxt2tags.obj \
+	$(DIR_O)\LexUser.obj \
 	$(DIR_O)\LexVB.obj \
 	$(DIR_O)\LexVerilog.obj \
 	$(DIR_O)\LexVHDL.obj \
@@ -235,13 +238,20 @@ SCILEXOBJS=\
 	$(LEXOBJS) \
 	$(DIR_O)\ScintillaBaseL.obj
 
+# To have PCRE
+# boost root path (BOOSTPATH) and boost regex lib binary path (BOOSTREGEXLIBPATH) should be given
+# Otherwise boost's PCRE won't be included in the build
+# For example:
+# nmake BOOSTPATH=C:\sources\boost_1_70_0\ BOOSTREGEXLIBPATH=C:\tmp\scintilla.414\boostregex -f scintilla.mak
+!INCLUDE ../boostregex/nppSpecifics.mak
+
 $(DIR_O)\ScintRes.res : ScintRes.rc
 	$(RC) -fo$@ $**
 
 $(COMPONENT): $(SOBJS) $(DIR_O)\ScintRes.res
 	$(LD) $(LDFLAGS) -DEF:Scintilla.def -DLL -OUT:$@ $** $(LIBS)
 
-$(LEXCOMPONENT): $(SCILEXOBJS) $(DIR_O)\ScintillaDLL.obj $(DIR_O)\ScintillaWinL.obj $(DIR_O)\ScintRes.res
+$(LEXCOMPONENT): $(SCILEXOBJS) $(DIR_O)\ScintillaDLL.obj $(DIR_O)\ScintillaWinL.obj $(DIR_O)\ScintRes.res 
 	$(LD) $(LDFLAGS) -DEF:Scintilla.def -DLL -OUT:$@ $** $(LIBS)
 
 $(LIBSCI): $(SCILEXOBJS) $(DIR_O)\ScintillaWin.obj
@@ -666,6 +676,8 @@ $(DIR_O)\LexNimrod.obj: ..\lexers\LexNimrod.cxx $(LEX_HEADERS)
 
 $(DIR_O)\LexNsis.obj: ..\lexers\LexNsis.cxx $(LEX_HEADERS)
 
+$(DIR_O)\LexObjC.obj: ..\lexers\LexObjC.cxx $(LEX_HEADERS)
+
 $(DIR_O)\LexNull.obj: ..\lexers\LexNull.cxx $(LEX_HEADERS)
 
 $(DIR_O)\LexOpal.obj: ..\lexers\LexOpal.cxx $(LEX_HEADERS)
@@ -710,6 +722,8 @@ $(DIR_O)\LexSAS.obj: ..\lexers\LexSAS.cxx $(LEX_HEADERS)
 
 $(DIR_O)\LexScriptol.obj: ..\lexers\LexScriptol.cxx $(LEX_HEADERS)
 
+$(DIR_O)\LexSearchResult.obj: ..\lexers\LexSearchResult.cxx $(LEX_HEADERS)
+
 $(DIR_O)\LexSmalltalk.obj: ..\lexers\LexSmalltalk.cxx $(LEX_HEADERS)
 
 $(DIR_O)\LexSML.obj: ..\lexers\LexSML.cxx $(LEX_HEADERS)
@@ -739,6 +753,8 @@ $(DIR_O)\LexTCMD.obj: ..\lexers\LexTCMD.cxx $(LEX_HEADERS)
 $(DIR_O)\LexTeX.obj: ..\lexers\LexTeX.cxx $(LEX_HEADERS)
 
 $(DIR_O)\LexTxt2tags.obj: ..\lexers\LexTxt2tags.cxx $(LEX_HEADERS)
+
+$(DIR_O)\LexUser.obj: ..\lexers\LexUser.cxx $(LEX_HEADERS)
 
 $(DIR_O)\LexVB.obj: ..\lexers\LexVB.cxx $(LEX_HEADERS)
 

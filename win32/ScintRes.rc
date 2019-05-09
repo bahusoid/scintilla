@@ -4,7 +4,7 @@
 
 #include <windows.h>
 
-#define VERSION_SCINTILLA "4.1.4"
+#define VERSION_SCINTILLA "4.1.4 for Notepad++"
 #define VERSION_WORDS 4, 1, 4, 0
 
 VS_VERSION_INFO VERSIONINFO
